@@ -1,0 +1,47 @@
+{
+  "name": "@fictivekin/growable-uint8-array",
+  "version": "1.0.0",
+  "description": "A wrapper around Uint8Array that simplifies buffer management when appending data (growing the array)",
+  "jest": {
+    "moduleDirectories": [
+      "node_modules",
+      "src"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/test/setup.js"
+    ],
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    }
+  },
+  "main": "./lib/index.js",
+  "scripts": {
+    "build": "babel src --out-dir lib",
+    "prepare": "npm run build",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fictivekin/fknpm-growable-uint8-array.git"
+  },
+  "keywords": [
+    "Uint8Array",
+    "TypedArray",
+    "ArrayBuffer",
+    "resize"
+  ],
+  "author": "Evan Haas <evan@fictivekin.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fictivekin/fknpm-growable-uint8-array/issues"
+  },
+  "homepage": "https://github.com/fictivekin/fknpm-growable-uint8-array#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/node": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "babel-jest": "^24.9.0",
+    "jest": "^24.9.0"
+  }
+}
