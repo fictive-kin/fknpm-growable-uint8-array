@@ -42,6 +42,9 @@ GrowableUint8Array.prototype.extend = function extend(buf) {
         this.buf.set(oldBuf);
     }
 
+    if (buf instanceof GrowableUint8Array) {
+        buf = buf.unwrap();
+    }
     this.buf.set(buf, this.length);
     this.bytesUsed += buf.length;
     return this;

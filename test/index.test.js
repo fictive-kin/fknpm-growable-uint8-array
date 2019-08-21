@@ -8,7 +8,7 @@ describe('GrowableUint8Array', () => {
         ).toThrow(RangeError);
     })
 
-    test('extend', () => {
+    test('extend with Uint8Array', () => {
         const arr1 = new Uint8Array([1, 2]);
         const arr2 = new Uint8Array([3, 4]);
         const buffer = new GrowableUint8Array().extend(arr1).extend(arr2);
@@ -16,6 +16,20 @@ describe('GrowableUint8Array', () => {
         expect(buffer.length).toBe(4);
 
         expect(buffer.unwrap()).toEqual(
+            new Uint8Array([1, 2, 3, 4]));
+    });
+
+    test('extend with GrowableUint8Array', () => {
+        const arr1 = new Uint8Array([1, 2]);
+        const arr2 = new Uint8Array([3, 4]);
+        const buffer1 = new GrowableUint8Array(arr1);
+        const buffer2 = new GrowableUint8Array(arr2);
+
+        buffer1.extend(buffer2);
+
+        expect(buffer1.length).toBe(4);
+
+        expect(buffer1.unwrap()).toEqual(
             new Uint8Array([1, 2, 3, 4]));
     });
 
