@@ -1,1 +1,6 @@
 src/
+.babelrc
+.editorconfig
+.eslintignore
+.eslintrc.json
+.circleci/
