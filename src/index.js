@@ -15,14 +15,14 @@ export default function GrowableUint8Array(buf=null, expansionRate=2) {
         this.bytesUsed = 0;
     }
     this.expansionRate = expansionRate;
-};
+}
 
 GrowableUint8Array.from = function from(source) {
     return new GrowableUint8Array(Uint8Array.from(source));
 };
 
 GrowableUint8Array.of = function of(...args) {
-    return new GrowableUint8Array(Uint8Array.of(...args1));
+    return new GrowableUint8Array(Uint8Array.of(...args));
 };
 
 /**
@@ -60,7 +60,7 @@ Object.defineProperty(GrowableUint8Array.prototype, 'length', {
     get: function() {
         return this.bytesUsed;
     },
-    set: function(val) {
+    set: function(_val) {
     },
 });
 
