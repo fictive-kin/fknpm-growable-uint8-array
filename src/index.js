@@ -39,13 +39,10 @@ GrowableUint8Array.prototype.extend = function extend(buf) {
         );
 
         this.buf = new Uint8Array(newSize);
-        this.buf.set(oldBuf);
+        this.set(oldBuf);
     }
 
-    if (buf instanceof GrowableUint8Array) {
-        buf = buf.unwrap();
-    }
-    this.buf.set(buf, this.length);
+    this.set(buf, this.length);
     this.bytesUsed += buf.length;
     return this;
 };
@@ -146,4 +143,11 @@ for (const fName of _WRAP_FNS) {  // eslint-disable-line no-unused-vars
 GrowableUint8Array.prototype.fill = function fill(...args) {
     this.unwrap().fill(...args);
     return this;
+}
+
+GrowableUint8Array.prototype.set = function set(array, offset=0) {
+    if (array instanceof GrowableUint8Array) {
+        array = array.unwrap();
+    }
+    return this.buf.set(array, offset);
 }
