@@ -112,9 +112,9 @@ const _PASSTHROUGH_FNS = [
     'values',
 ];
 
-for (const name of _PASSTHROUGH_FNS) {
-    GrowableUint8Array.prototype[name] = function(...args) {
-        return this.unwrap()[name](...args);
+for (const fName of _PASSTHROUGH_FNS) {  // eslint-disable-line no-unused-vars
+    GrowableUint8Array.prototype[fName] = function(...args) {
+        return this.unwrap()[fName](...args);
     };
 }
 
@@ -131,10 +131,10 @@ const _WRAP_FNS = [
     'sort',
 ];
 
-for (const name of _WRAP_FNS) {
-    GrowableUint8Array.prototype[name] = function(...args) {
+for (const fName of _WRAP_FNS) {  // eslint-disable-line no-unused-vars
+    GrowableUint8Array.prototype[fName] = function(...args) {
         return new GrowableUint8Array(
-            this.unwrap()[name](...args),
+            this.unwrap()[fName](...args),
             this.expansionRate,
         );
     };
