@@ -55,7 +55,7 @@ jobs:
 
 workflows:
     version: 2
-        lint_and_test:
-            jobs:
-                - lint_js
-                - test_js
+    lint_and_test:
+        jobs:
+            - lint_js
+            - test_js
