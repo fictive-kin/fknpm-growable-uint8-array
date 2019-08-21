@@ -68,6 +68,11 @@ Object.defineProperty(GrowableUint8Array.prototype, 'length', {
     },
 });
 
+/*
+    Returns the underlying Uint8Array buffer.
+    * @param {boolean} copy Pass `true` to return a copy of the buffer.
+    * @return {Uint8Array}
+*/
 GrowableUint8Array.prototype.unwrap = function unwrap(copy=false) {
     const unwrapped = this.buf.subarray(0, this.length);
     if (copy) {

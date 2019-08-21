@@ -12,6 +12,27 @@ describe('GrowableUint8Array', () => {
 	        new Uint8Array([1, 2, 3, 4]));
 	});
 
+	describe('unwrap', () => {
+		test('without copy', () => {
+			const arr = new Uint8Array([1, 2, 3, 4]);
+			const buf = new GrowableUint8Array().extend(arr);
+
+			const unwrapped = buf.unwrap();
+			unwrapped[0] = 42;
+			expect(buf.unwrap()).toEqual(unwrapped);
+		});
+
+		test('with copy', () => {
+			const arr = new Uint8Array([1, 2, 3, 4]);
+			const buf = new GrowableUint8Array().extend(arr);
+
+			const unwrappedCopy = buf.unwrap(true);
+			unwrappedCopy[0] = 42;
+			expect(buf.unwrap()).not.toEqual(unwrappedCopy);
+		});
+	});
+
+
 	test('expansion', () => {
 	    const buffer = new GrowableUint8Array();
 	    buffer.extend(new Uint8Array([
@@ -31,12 +52,6 @@ describe('GrowableUint8Array', () => {
 	    ]));
 
 	    expect(buffer.length).toBe(16 + 17 + 1 + 1);
-	});
-
-	test('convert to typedArray', () => {
-	    const arr = new Uint8Array([1, 2, 3, 4]);
-	    const buffer = GrowableUint8Array.from(arr);
-	    expect(buffer.unwrap()).toEqual(arr);
 	});
 
 	test('length', () => {
@@ -119,13 +134,18 @@ describe('GrowableUint8Array', () => {
 	});
 
 	test('fill', () => {
-	    const buffer = GrowableUint8Array.from([0, 0, 0, 0]).fill(2);
-	    expect(buffer).toEqual(GrowableUint8Array.from([2, 2, 2, 2]));
+		const src = GrowableUint8Array.from([0, 0, 0, 0]);
+	    const filled = src.fill(2);
+	    expect(filled).toEqual(GrowableUint8Array.from([2, 2, 2, 2]));
+	    expect(src).toBe(filled);
 	});
 
 	test('sort', () => {
 	    const buffer = GrowableUint8Array.from([4, 3, 2, 1]).sort();
 	    expect(buffer).toEqual(GrowableUint8Array.from([1, 2, 3, 4]));
+
+	    buffer.sort((a, b) => a < b);
+	    expect(buffer).toEqual(GrowableUint8Array.from([4, 3, 2, 1]));
 	});
 
 	test('map', () => {
@@ -139,19 +159,39 @@ describe('GrowableUint8Array', () => {
 	});
 
 	test('indexOf', () => {
-	    const buffer = GrowableUint8Array.from([1, 2, 3]);
+	    const buffer = GrowableUint8Array.from([1, 2, 3]).extend([4]);
 	    expect(buffer.indexOf(2)).toBe(1);
+	    expect(buffer.indexOf(0)).toBe(-1);
 	});
 
 	test('keys', () => {
-	    const buffer = GrowableUint8Array.from([1, 2, 3]);
-	    expect(Array.from(buffer.keys())).toEqual([0, 1, 2]);
+	    const buffer = GrowableUint8Array.from([1, 2, 3]).extend([4]);
+	    expect(Array.from(buffer.keys())).toEqual([0, 1, 2, 3]);
 	});
 
 	test('set', () => {
-	    const dest = GrowableUint8Array.from([1, 2, 3, 4]);
+	    const dest = GrowableUint8Array.from([1, 2, 3, 4]).extend([5]);
 	    const source = new Uint8Array([4, 5, 6]);
 	    dest.set(source);
-	    expect(dest.unwrap()).toEqual(new Uint8Array([4, 5, 6, 4]));
+	    expect(dest.unwrap()).toEqual(new Uint8Array([4, 5, 6, 4, 5]));
 	});
+
+	test('find', () => {
+		const arr = GrowableUint8Array.from([1, 2, 3, 4]).extend([5]);
+		expect(arr.find((x) => x === 2)).toBe(2);
+		expect(arr.find((x) => x === 0)).toBe(undefined);
+	});
+
+	test('findIndex', () => {
+		const arr = GrowableUint8Array.from([1, 2, 3, 4]).extend([5]);
+		expect(arr.findIndex((x) => x === 2)).toBe(1);
+		expect(arr.findIndex((x) => x === 0)).toBe(-1);
+	});
+
+	test('some', () => {
+	    const buffer = GrowableUint8Array.from([1, 2, 3]).extend([4]);
+	    expect(buffer.some((x) => x === 4)).toBe(true);
+	    expect(buffer.some((x) => x === 0)).toBe(false);
+	});
+
 });
