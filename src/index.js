@@ -1,33 +1,29 @@
 /**
      Create a new GrowableUint8Array
      * @param {Uint8Array} buf: Initial view
-     * @param {number} bytesUsed: bytes of buf that are in use
      * @param {number} expansionRate: How much to grow buffer
  */
-export default function GrowableUint8Array(buf=null, bytesUsed=0, expansionRate=2) {
+export default function GrowableUint8Array(buf=null, expansionRate=2) {
     if (buf) {
-        this.buf = Uint8Array.from(buf);
+        if (!(buf instanceof Uint8Array)) {
+            throw new Error('Can only wrap Uint8Array instances');
+        }
+        this.buf = buf;
+        this.bytesUsed = this.buf.length;
     } else {
         this.buf = new Uint8Array(parseInt(2 * (expansionRate ** 4)));
+        this.bytesUsed = 0;
     }
-    this.bytesUsed = bytesUsed;
     this.expansionRate = expansionRate;
 };
 
 GrowableUint8Array.from = function from(source) {
-    return new GrowableUint8Array(source, source.length);
+    return new GrowableUint8Array(Uint8Array.from(source));
 };
 
-GrowableUint8Array.wrap = function wrap(source) {
-    if (!(source instanceof Uint8Array)) {
-        throw new Error('Can only wrap Uint8Array instances');
-    }
-    const arr = new GrowableUint8Array();
-    arr.buf = source;
-    arr.bytesUsed = source.length;
-    return arr;
+GrowableUint8Array.of = function of(...args) {
+    return new GrowableUint8Array(Uint8Array.of(...args1));
 };
-
 
 /**
     Extend a GrowableUint8Array with new data
@@ -65,6 +61,18 @@ Object.defineProperty(GrowableUint8Array.prototype, 'length', {
         return this.bytesUsed;
     },
     set: function(val) {
+    },
+});
+
+Object.defineProperty(GrowableUint8Array.prototype, 'expansionRate', {
+    get: function() {
+        return this._expansionRate;
+    },
+    set: function(val) {
+        if (val <= 1) {
+            throw new RangeError('expansionRate must be greater than 1');
+        }
+        this._expansionRate = val;
     },
 });
 
@@ -125,8 +133,9 @@ const _WRAP_FNS = [
 
 for (const name of _WRAP_FNS) {
     GrowableUint8Array.prototype[name] = function(...args) {
-        return GrowableUint8Array.wrap(
+        return new GrowableUint8Array(
             this.unwrap()[name](...args),
+            this.expansionRate,
         );
     };
 }

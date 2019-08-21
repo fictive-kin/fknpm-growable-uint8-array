@@ -1,6 +1,13 @@
 import GrowableUint8Array from '../src/index.js';
 
 describe('GrowableUint8Array', () => {
+
+	test('constructor', () => {
+	    expect(() =>
+	        new GrowableUint8Array(new Uint8Array(), 0, 1)
+	    ).toThrow(RangeError);
+	})
+
 	test('extend', () => {
 	    const arr1 = new Uint8Array([1, 2]);
 	    const arr2 = new Uint8Array([3, 4]);
@@ -194,4 +201,8 @@ describe('GrowableUint8Array', () => {
 	    expect(buffer.some((x) => x === 0)).toBe(false);
 	});
 
+	test('of', () => {
+		const buffer = GrowableUint8Array.of(1, 2, 3);
+		expect(buffer).toEqual(GrowableUint8Array.from([1, 2, 3]));
+	});
 });

@@ -1,0 +1,32 @@
+{
+    "plugins": [],
+    "extends": [],
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "ecmaVersion": 7,
+        "sourceType": "module"
+    },
+    "rules": {
+        "require-jsdoc": ["error", {
+            "require": {
+                "FunctionDeclaration": true
+            }
+        }],
+        "generator-star-spacing": 0,
+        "no-alert": 0,
+        "indent": ["error", 4],
+        "camelcase": "warn",
+        "object-curly-spacing": ["error", "never"],
+        "arrow-parens": ["error", "always"],
+        "comma-dangle": ["warn", "always-multiline"],
+        "quotes": ["error", "single"],
+        "jsx-quotes": ["error", "prefer-single"],
+        "no-negated-condition": ["warn"],
+        "new-cap": ["warn"],
+        "no-invalid-this": 0,
+        "max-len": ["warn"],
+        "require-jsdoc": 0
+    },
+    "globals": {
+    }
+}
