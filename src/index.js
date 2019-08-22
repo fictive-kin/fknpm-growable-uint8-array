@@ -159,3 +159,9 @@ GrowableUint8Array.prototype.set = function set(array, ...args) {
     }
     return this.buf.set(array, ...args);
 }
+
+const inspect = Symbol.for('nodejs.util.inspect.custom');
+GrowableUint8Array.prototype[inspect] = function inspect(...args) {
+    return util.inspect(this.unwrap(), ...args)  // eslint-disable-line no-undef
+        .replace('Uint8Array', 'GrowableUint8Array');
+};
