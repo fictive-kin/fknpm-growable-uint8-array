@@ -145,9 +145,9 @@ GrowableUint8Array.prototype.fill = function fill(...args) {
     return this;
 }
 
-GrowableUint8Array.prototype.set = function set(array, offset=0) {
+GrowableUint8Array.prototype.set = function set(array, ...args) {
     if (array instanceof GrowableUint8Array) {
         array = array.unwrap();
     }
-    return this.buf.set(array, offset);
+    return this.buf.set(array, ...args);
 }
