@@ -17,10 +17,18 @@ export default function GrowableUint8Array(buf=null, expansionRate=2) {
     this.expansionRate = expansionRate;
 }
 
-GrowableUint8Array.from = function from(source) {
-    return new GrowableUint8Array(Uint8Array.from(source));
+/**
+    Creates a new GrowableUint8Array from an array-like or iterable object.
+    See also Array.from().
+*/
+GrowableUint8Array.from = function from(...args) {
+    return new GrowableUint8Array(Uint8Array.from(...args));
 };
 
+/**
+    Creates a new GrowableUint8Array with a variable number of arguments.
+    See also Array.of().
+*/
 GrowableUint8Array.of = function of(...args) {
     return new GrowableUint8Array(Uint8Array.of(...args));
 };
