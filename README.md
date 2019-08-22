@@ -1,6 +1,6 @@
 # growable-uint8-array
 
-Build status: ![](https://circleci.com/gh/fictivekin/fknpm-growable-uint8-array.svg?style=svg)
+![](https://img.shields.io/circleci/build/gh/fictivekin/fknpm-growable-uint8-array?logo=circleci&style=for-the-badge)
 
 GrowableUint8Array is simple wrapper around Uint8Array that manages resizing the buffer when appending new data.
 
