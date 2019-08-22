@@ -120,7 +120,7 @@ const _PASSTHROUGH_FNS = [
     'values',
 ];
 
-for (const fName of _PASSTHROUGH_FNS) {  // eslint-disable-line no-unused-vars
+for (const fName of _PASSTHROUGH_FNS) {
     GrowableUint8Array.prototype[fName] = function(...args) {
         return this.unwrap()[fName](...args);
     };
@@ -139,7 +139,7 @@ const _WRAP_FNS = [
     'sort',
 ];
 
-for (const fName of _WRAP_FNS) {  // eslint-disable-line no-unused-vars
+for (const fName of _WRAP_FNS) {
     GrowableUint8Array.prototype[fName] = function(...args) {
         return new GrowableUint8Array(
             this.unwrap()[fName](...args),
