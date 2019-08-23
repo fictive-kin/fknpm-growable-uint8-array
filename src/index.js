@@ -108,11 +108,6 @@ export default function GrowableUint8Array(buf=null, expansionRate=2) {
     }
     this.expansionRate = expansionRate;
 
-    if (typeof Proxy === 'undefined') {
-        return this;
-    }
-
-    return new Proxy(this, proxyHandler);
 }
 
 /**
@@ -130,6 +125,12 @@ GrowableUint8Array.from = function from(...args) {
 GrowableUint8Array.of = function of(...args) {
     return new GrowableUint8Array(Uint8Array.of(...args));
 };
+
+
+GrowableUint8Array.prototype.accessProxy = function accessProxy() {
+    return new Proxy(this, proxyHandler);
+}
+
 
 /**
     Extend a GrowableUint8Array with new data

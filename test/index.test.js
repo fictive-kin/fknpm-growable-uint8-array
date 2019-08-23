@@ -221,7 +221,7 @@ describe('GrowableUint8Array', () => {
     });
 
     test('indexing', () => {
-        const buffer = new GrowableUint8Array().extend([1, 2, 3]);
+        const buffer = new GrowableUint8Array().extend([1, 2, 3]).accessProxy();
         expect(buffer[0]).toBe(1);
         expect(buffer['0']).toBe(1);
         expect(buffer[1]).toBe(2);
@@ -230,14 +230,14 @@ describe('GrowableUint8Array', () => {
     });
 
     test('in', () => {
-        const buffer = new GrowableUint8Array().extend([1, 2, 3]);
+        const buffer = new GrowableUint8Array().extend([1, 2, 3]).accessProxy();
         expect('buf' in buffer).toBe(true);
         expect(1 in buffer).toBe(true);
         expect(4 in buffer).toBe(false);
     });
 
     test('set', () => {
-        const buffer = new GrowableUint8Array().extend([1, 2, 3]);
+        const buffer = new GrowableUint8Array().extend([1, 2, 3]).accessProxy();
         buffer[0] = 42;
         expect(buffer[0]).toBe(42);
         buffer[4] = 42;
@@ -250,7 +250,7 @@ describe('GrowableUint8Array', () => {
     });
 
     test('ownKeys', () => {
-        const buffer = new GrowableUint8Array().extend([1, 2, 3]);
+        const buffer = new GrowableUint8Array().extend([1, 2, 3]).accessProxy();
         expect(Object.keys(buffer)).toEqual(['0', '1', '2']);
 
         buffer.x = 5;
@@ -258,7 +258,7 @@ describe('GrowableUint8Array', () => {
     });
 
     test('defineProperty', () => {
-        const buffer = new GrowableUint8Array().extend([1, 2, 3]);
+        const buffer = new GrowableUint8Array().extend([1, 2, 3]).accessProxy();
         Object.defineProperty(buffer, 0, {value: 42});
         expect(buffer[0]).toBe(42);
 
@@ -279,7 +279,7 @@ describe('GrowableUint8Array', () => {
     });
 
     test('delete', () => {
-        const buffer = new GrowableUint8Array().extend([1, 2, 3]);
+        const buffer = new GrowableUint8Array().extend([1, 2, 3]).accessProxy();
 
         // Ideally this would return false, but Proxy invariant won't allow it
         expect(delete buffer[0]).toBe(true);
