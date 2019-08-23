@@ -280,8 +280,15 @@ describe('GrowableUint8Array', () => {
 
     test('delete', () => {
         const buffer = new GrowableUint8Array().extend([1, 2, 3]);
-        delete buffer[0];
+
+        // Ideally this would return false, but Proxy invariant won't allow it
+        expect(delete buffer[0]).toBe(true);
+
+        // Property not actually deleted, which is good
         expect(buffer[0]).toBe(1);
+
+        expect(delete buffer[4]).toBe(true);
+
     });
 
     test('Preserve expansionRate when new object returned from delegated functions', () => {

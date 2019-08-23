@@ -52,7 +52,15 @@ const proxyHandler = {
         if (isArrayIndex(prop)) {
             const uint32Prop = toUint32(prop);
             if (uint32Prop < target.length) {
-                const descriptor = Reflect.getOwnPropertyDescriptor(target.buf, uint32Prop);
+                const descriptor = Reflect.getOwnPropertyDescriptor(
+                    target.buf, uint32Prop);
+                /*
+                    This descriptor is not really configurable, but Proxy
+                    invariants require that it be marked as such since `target`
+                    does not have the corresponding property.
+
+                    This has implications for deleteProperty
+                */
                 descriptor.configurable = true;
                 return descriptor;
             }
@@ -71,10 +79,6 @@ const proxyHandler = {
     },
     deleteProperty(target, prop) {
         if (isArrayIndex(prop)) {
-            // const uint32Prop = toUint32(prop);
-            // if (uint32Prop < target.length) {
-            //     return Reflect.deleteProperty(target.buf, prop);
-            // }
             return true;
         }
         return Reflect.deleteProperty(target, prop);
