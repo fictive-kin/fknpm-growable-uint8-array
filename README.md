@@ -16,7 +16,7 @@ Use `growableUint8Array.unwrap()` to return a `Uint8Array` view of the underlyin
 
 ## Usage
 ```js
-import GrowableUint8Array from '@fictivekin/growable-uint-array';
+import GrowableUint8Array from '@fictivekin/growable-uint8-array';
 
 const arr = new GrowableUint8Array(new Uint8Array([1, 2, 3]));
 console.log(arr.length); // 3
@@ -31,7 +31,7 @@ arr.unwrap()             // Uint8Array [ 1, 2, 3, 4, 5, 6 ]
 If your environment supports ES6 proxies, you can use `arr.accessProxy()` to get a proxy object which allows for Array-like attribute access.
 
 ```js
-import GrowableUint8Array from '@fictivekin/growable-uint-array';
+import GrowableUint8Array from '@fictivekin/growable-uint8-array';
 
 const proxy = new GrowableUint8Array(new Uint8Array([1, 2, 42])).accessProxy();
 proxy[2];          // 42
@@ -43,7 +43,7 @@ proxy.unwrap()    // Uint8Array [ 7, 2, 42, 3, 2, 1 ]
 ```
 
 ## Install
-`npm install @fictivekin/growable-uint-array`
+`npm install @fictivekin/growable-uint8-array`
 
 ## Contribute
 Clone repo, then install dev dependencies:
