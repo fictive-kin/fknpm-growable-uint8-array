@@ -167,6 +167,6 @@ GrowableUint8Array.prototype.set = function set(array, ...args) {
 
 const inspect = Symbol.for('nodejs.util.inspect.custom');
 GrowableUint8Array.prototype[inspect] = function inspect(...args) {
-    return util.inspect(this.unwrap(), ...args)  // eslint-disable-line no-undef
+    return require('util').inspect(this.unwrap(), ...args)
         .replace('Uint8Array', 'GrowableUint8Array');
 };

@@ -233,6 +233,12 @@ describe('GrowableUint8Array', () => {
         const buffer2 = new GrowableUint8Array(buffer);
         expect(buffer).not.toBe(buffer2);
         expect(buffer).toEqual(buffer2);
+    });
 
-    })
+    test('console.log', () => {
+        const buffer = new GrowableUint8Array().extend([1, 2, 3]);
+        expect(require('util').inspect(buffer)).toBe(
+            'GrowableUint8Array [ 1, 2, 3 ]'
+        );
+    });
 });
