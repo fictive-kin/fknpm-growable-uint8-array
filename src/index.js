@@ -23,8 +23,11 @@ const proxyHandler = {
         return Reflect.has(target, key);
     },
     get(target, property, receiver) {
-        if (isArrayIndex(property) && property in receiver) {
-            return target.buf[property];
+        if (isArrayIndex(property)) {
+            if (property in receiver) {
+                return target.buf[property];
+            }
+            return undefined;
         }
         return Reflect.get(target, property, receiver);
     },
@@ -37,7 +40,45 @@ const proxyHandler = {
         }
         return Reflect.set(target, property, value, receiver);
     },
-
+    ownKeys(target) {
+        const keys = new Set(Reflect.ownKeys(target.unwrap()).concat(
+            Reflect.ownKeys(target)));
+        keys.delete('buf');
+        keys.delete('bytesUsed');
+        keys.delete('_expansionRate');
+        return Array.from(keys);
+    },
+    getOwnPropertyDescriptor(target, prop) {
+        if (isArrayIndex(prop)) {
+            const uint32Prop = toUint32(prop);
+            if (uint32Prop < target.length) {
+                const descriptor = Reflect.getOwnPropertyDescriptor(target.buf, uint32Prop);
+                descriptor.configurable = true;
+                return descriptor;
+            }
+        }
+        return Reflect.getOwnPropertyDescriptor(target, prop);
+    },
+    defineProperty(target, key, descriptor) {
+        if (isArrayIndex(key)) {
+            const uint32Prop = toUint32(key);
+            if (uint32Prop < target.length) {
+                return Reflect.defineProperty(target.buf, key, descriptor);
+            }
+            throw new TypeError('Invalid typed array index');
+        }
+        return Reflect.defineProperty(target, key, descriptor);
+    },
+    deleteProperty(target, prop) {
+        if (isArrayIndex(prop)) {
+            // const uint32Prop = toUint32(prop);
+            // if (uint32Prop < target.length) {
+            //     return Reflect.deleteProperty(target.buf, prop);
+            // }
+            return true;
+        }
+        return Reflect.deleteProperty(target, prop);
+    },
 };
 
 /**

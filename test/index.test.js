@@ -223,6 +223,7 @@ describe('GrowableUint8Array', () => {
     test('indexing', () => {
         const buffer = new GrowableUint8Array().extend([1, 2, 3]);
         expect(buffer[0]).toBe(1);
+        expect(buffer['0']).toBe(1);
         expect(buffer[1]).toBe(2);
         expect(buffer[2]).toBe(3);
         expect(buffer[3]).toBe(undefined);
@@ -246,6 +247,41 @@ describe('GrowableUint8Array', () => {
         buffer.foo = 'bar';
         expect(buffer.foo).toBe('bar');
         expect('foo' in buffer).toBe(true);
+    });
+
+    test('ownKeys', () => {
+        const buffer = new GrowableUint8Array().extend([1, 2, 3]);
+        expect(Object.keys(buffer)).toEqual(['0', '1', '2']);
+
+        buffer.x = 5;
+        expect(Object.keys(buffer)).toEqual(['0', '1', '2', 'x']);
+    });
+
+    test('defineProperty', () => {
+        const buffer = new GrowableUint8Array().extend([1, 2, 3]);
+        Object.defineProperty(buffer, 0, {value: 42});
+        expect(buffer[0]).toBe(42);
+
+        expect(() =>
+            Object.defineProperty(buffer, 4, {value: 42})
+        ).toThrow(TypeError);
+        expect(buffer[4]).toBe(undefined);
+
+        expect(() =>
+            Object.defineProperty(buffer, 4, {value: 42})
+        ).toThrow(TypeError);
+        expect(buffer[4]).toBe(undefined);
+
+        expect(() =>
+            Object.defineProperty(buffer, 0, {get() { return 43; }})
+        ).toThrow(TypeError);
+        expect(buffer[0]).toBe(42);
+    });
+
+    test('delete', () => {
+        const buffer = new GrowableUint8Array().extend([1, 2, 3]);
+        delete buffer[0];
+        expect(buffer[0]).toBe(1);
     });
 
     test('Preserve expansionRate when new object returned from delegated functions', () => {
