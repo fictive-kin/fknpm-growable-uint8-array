@@ -1,6 +1,6 @@
 {
   "name": "@fictivekin/growable-uint8-array",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "A wrapper around Uint8Array that simplifies buffer management when appending data (growing the array)",
   "jest": {
     "moduleDirectories": [
