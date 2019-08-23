@@ -312,4 +312,26 @@ describe('GrowableUint8Array', () => {
             'GrowableUint8Array [ 1, 2, 3 ]'
         );
     });
+
+    test('getElement', () => {
+        const buffer = new GrowableUint8Array().extend([1, 2, 3]);
+        expect(buffer.getElement(0)).toBe(1);
+        expect(buffer.getElement(1)).toBe(2);
+        expect(buffer.getElement(2)).toBe(3);
+        expect(buffer.getElement(3)).toBe(undefined);
+        expect(buffer.getElement(-1)).toBe(undefined);
+    });
+
+    test('getElement', () => {
+        const buffer = new GrowableUint8Array().extend([1, 2, 3]);
+        expect(buffer.setElement(0, 42)).toBe(42);
+        expect(buffer.getElement(0)).toBe(42);
+
+        expect(buffer.setElement(3, 100)).toBe(100);
+        expect(buffer.getElement(3)).toBe(undefined);
+
+        expect(buffer.setElement(-1, 100)).toBe(100);
+        expect(buffer.getElement(-1)).toBe(undefined);
+
+    });
 });

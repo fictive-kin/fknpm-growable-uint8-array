@@ -258,6 +258,20 @@ GrowableUint8Array.prototype.set = function set(array, ...args) {
     return this.buf.set(array, ...args);
 }
 
+GrowableUint8Array.prototype.getElement = function getElement(index) {
+    if (index < this.length) {
+        return this.buf[index];
+    }
+    return undefined;
+}
+
+GrowableUint8Array.prototype.setElement = function setElement(index, value) {
+    if (index < this.length) {
+        return this.buf[index] = value;
+    }
+    return value;
+}
+
 const inspect = Symbol.for('nodejs.util.inspect.custom');
 GrowableUint8Array.prototype[inspect] = function inspect(...args) {
     return require('util').inspect(this.unwrap(), ...args)
