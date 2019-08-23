@@ -219,4 +219,12 @@ describe('GrowableUint8Array', () => {
         const buffer = GrowableUint8Array.of(1, 2, 3);
         expect(buffer).toEqual(GrowableUint8Array.from([1, 2, 3]));
     });
+
+    test('Preserve expansionRate when new object returned from delegated functions', () => {
+        const buffer = new GrowableUint8Array(new Uint8Array([1, 2, 3]), 4);
+        expect(buffer.expansionRate).toBe(4);
+
+        const buffer2 = buffer.map((x) => x + 1);
+        expect(buffer2.expansionRate).toBe(4);
+    });
 });
