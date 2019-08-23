@@ -8,7 +8,9 @@ Adds a new method `extend` which can be used to append data to an array. `Growab
 underlying buffer, automatically allocating a larger `Uint8Array` when necessary using a simple exponential
 growth algorithm.
 
-All `TypedArray` methods are delegated to the underlying `Uint8Array`. If the method returns an instance of
+`getElement(n)` and `setElement(n, value)` can be used to get and set the value, respectively, at a specific index. When setting, index values less than zero or greater than the length of the array are silently ignored.
+
+All `TypedArray` prototype methods are delegated to the underlying `Uint8Array`. If the prototype method returns an instance of
 `Uint8Array` it will be wrapped in a `GrowableUint8Array`.
 
 Use `growableUint8Array.unwrap()` to return a `Uint8Array` view of the underlying data, with proper bounds. By default this will not copy the data, for performance reasons. Pass `true` as the first argument to unwrap to return a copy of the data.
