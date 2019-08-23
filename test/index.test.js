@@ -227,4 +227,12 @@ describe('GrowableUint8Array', () => {
         const buffer2 = buffer.map((x) => x + 1);
         expect(buffer2.expansionRate).toBe(4);
     });
+
+    test('Create a copy of a GrowableUint8Array', () => {
+        const buffer = new GrowableUint8Array().extend([1, 2, 3]);
+        const buffer2 = new GrowableUint8Array(buffer);
+        expect(buffer).not.toBe(buffer2);
+        expect(buffer).toEqual(buffer2);
+
+    })
 });

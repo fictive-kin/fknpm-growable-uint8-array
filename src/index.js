@@ -5,6 +5,12 @@
  */
 export default function GrowableUint8Array(buf=null, expansionRate=2) {
     if (buf) {
+        if (buf instanceof GrowableUint8Array) {
+            return new GrowableUint8Array(
+                buf.unwrap(true),
+                expansionRate || buf.expansionRate,
+            );
+        }
         if (!(buf instanceof Uint8Array)) {
             throw new Error('Can only wrap Uint8Array instances');
         }
