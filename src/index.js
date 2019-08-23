@@ -1,4 +1,3 @@
-const util = require('util');
 const MAX_SIGNED_INT_VALUE = 2**32 - 1;
 
 function toUint32(x) {
