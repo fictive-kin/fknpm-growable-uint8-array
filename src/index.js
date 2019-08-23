@@ -121,7 +121,6 @@ const _PASSTHROUGH_FNS = [
     'lastIndexOf',
     'reduce',
     'reduceRight',
-    'set',
     'some',
     'values',
 ];
