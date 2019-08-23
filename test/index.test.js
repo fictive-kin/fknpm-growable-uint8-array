@@ -220,6 +220,34 @@ describe('GrowableUint8Array', () => {
         expect(buffer).toEqual(GrowableUint8Array.from([1, 2, 3]));
     });
 
+    test('indexing', () => {
+        const buffer = new GrowableUint8Array().extend([1, 2, 3]);
+        expect(buffer[0]).toBe(1);
+        expect(buffer[1]).toBe(2);
+        expect(buffer[2]).toBe(3);
+        expect(buffer[3]).toBe(undefined);
+    });
+
+    test('in', () => {
+        const buffer = new GrowableUint8Array().extend([1, 2, 3]);
+        expect('buf' in buffer).toBe(true);
+        expect(1 in buffer).toBe(true);
+        expect(4 in buffer).toBe(false);
+    });
+
+    test('set', () => {
+        const buffer = new GrowableUint8Array().extend([1, 2, 3]);
+        buffer[0] = 42;
+        expect(buffer[0]).toBe(42);
+        buffer[4] = 42;
+        expect(buffer[4]).toBe(undefined);
+        expect(4 in buffer).toBe(false);
+
+        buffer.foo = 'bar';
+        expect(buffer.foo).toBe('bar');
+        expect('foo' in buffer).toBe(true);
+    });
+
     test('Preserve expansionRate when new object returned from delegated functions', () => {
         const buffer = new GrowableUint8Array(new Uint8Array([1, 2, 3]), 4);
         expect(buffer.expansionRate).toBe(4);

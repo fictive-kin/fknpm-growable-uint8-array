@@ -1,3 +1,45 @@
+const util = require('util');
+const MAX_SIGNED_INT_VALUE = 2**32 - 1;
+
+function toUint32(x) {
+    return x >>> 0;
+}
+
+function isArrayIndex(propName) {
+    if (typeof propName === 'symbol') {
+        return false;
+    }
+    const uint32Prop = toUint32(propName);
+    return String(uint32Prop) === propName &&
+        uint32Prop !== MAX_SIGNED_INT_VALUE;
+}
+
+const proxyHandler = {
+    has(target, key) {
+        if (isArrayIndex(key)) {
+            const uint32Prop = toUint32(key);
+            return uint32Prop < target.length;
+        }
+        return Reflect.has(target, key);
+    },
+    get(target, property, receiver) {
+        if (isArrayIndex(property) && property in receiver) {
+            return target.buf[property];
+        }
+        return Reflect.get(target, property, receiver);
+    },
+    set(target, property, value, receiver) {
+        if (isArrayIndex(property)) {
+            if (property in receiver) {
+                target.buf[property] = value;
+            }
+            return true;
+        }
+        return Reflect.set(target, property, value, receiver);
+    },
+
+};
+
 /**
      Create a new GrowableUint8Array
      * @param {Uint8Array} buf: Initial view
@@ -21,6 +63,12 @@ export default function GrowableUint8Array(buf=null, expansionRate=2) {
         this.bytesUsed = 0;
     }
     this.expansionRate = expansionRate;
+
+    if (typeof Proxy === 'undefined') {
+        return this;
+    }
+
+    return new Proxy(this, proxyHandler);
 }
 
 /**
