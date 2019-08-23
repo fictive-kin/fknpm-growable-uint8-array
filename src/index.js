@@ -258,6 +258,11 @@ GrowableUint8Array.prototype.set = function set(array, ...args) {
     return this.buf.set(array, ...args);
 }
 
+/*
+    Get the element at a specific index
+    * @param {number} index index of element.
+    * @return {number}
+*/
 GrowableUint8Array.prototype.getElement = function getElement(index) {
     if (index < this.length) {
         return this.buf[index];
@@ -265,6 +270,12 @@ GrowableUint8Array.prototype.getElement = function getElement(index) {
     return undefined;
 }
 
+/*
+    Set the element at a specific index to a value
+    * @param {number} index index of element.
+    * @param {number} value value to set
+    * @return {number}
+*/
 GrowableUint8Array.prototype.setElement = function setElement(index, value) {
     if (index < this.length) {
         return this.buf[index] = value;
